@@ -8,6 +8,13 @@
 <script>
 export default {
   name: "Home",
-  components: {}
+  data() {
+    return {
+      a: {
+        b: 0,
+      },
+    };
+  },
+  components: {},
 };
 </script>

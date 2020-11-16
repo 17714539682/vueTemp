@@ -13,9 +13,12 @@ export default {
   name: "app",
   data() {
     return {
-      value: 2
+      value: 2,
     };
-  }
+  },
+  created() {
+    console.log(this.value?.a?.c);
+  },
 };
 </script>
 

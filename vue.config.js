@@ -1,6 +1,7 @@
 ("use strict");
 const config = require("./src/config");
 const path = require("path");
+const webpack = require("webpack");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const productionGzipExtensions = ["js", "css"];
 
@@ -14,6 +15,7 @@ module.exports = {
   publicPath: isProduction ? "./" : "/",
   outputDir: "./dist",
   assetsDir: "static",
+  filenameHashing: true, // 默认在生成的静态资源文件名中包含hash以控制缓存
   productionSourceMap: false, // 生产环境的 source map
   devServer: {
     open: true, // 是否打开浏览器;
@@ -25,24 +27,24 @@ module.exports = {
         changeOrigin: true, // 开启代理
         ws: false, // 是否启用  websockets;
         pathRewrite: {
-          [`^${config.apiPrefix}`]: config.apiPrefix
-        }
-      }
-    }
+          [`^${config.apiPrefix}`]: config.apiPrefix,
+        },
+      },
+    },
   },
   css: {
     loaderOptions: {
       less: {
-        javascriptEnabled: true
-      }
-    }
+        javascriptEnabled: true,
+      },
+    },
   },
   configureWebpack: {
     resolve: {
       alias: {
         "@": resolve("src"),
-        "@ant-design/icons/lib/dist$": resolve("./src/assets/antd/icons.js") //按需引入antd的icon
-      }
+        "@ant-design/icons/lib/dist$": resolve("./src/assets/antd/icons.js"), //按需引入antd的icon
+      },
     },
     plugins: [
       new CompressionWebpackPlugin({
@@ -50,8 +52,8 @@ module.exports = {
         algorithm: "gzip",
         test: new RegExp("\\.(" + productionGzipExtensions.join("|") + ")$"), // 匹配文件名
         threshold: 0, // 对超过0k的文件压缩
-        minRatio: 0.8 // 对压缩率小于这个值的资源进行处理
-      })
+        minRatio: 0.8, // 对压缩率小于这个值的资源进行处理
+      }),
     ],
     externals: isProduction
       ? {
@@ -64,15 +66,30 @@ module.exports = {
           // moment: "moment",
           // lodash: "lodash"
         }
-      : {}
+      : {},
   },
   chainWebpack: config => {
+    const cdn = {
+      css: ["//unpkg.com/element-ui@2.10.1/lib/theme-chalk/index.css"],
+      js: [
+        "//unpkg.com/vue@2.6.10/dist/vue.min.js",
+        "//unpkg.com/vue-router@3.0.6/dist/vue-router.min.js",
+        "//unpkg.com/vuex@3.1.1/dist/vuex.min.js",
+        "//unpkg.com/axios@0.19.0/dist/axios.min.js",
+        "//unpkg.com/element-ui@2.10.1/lib/index.js",
+      ],
+    };
     if (isProduction) {
       config.plugin("html").tap(args => {
         args[0].mode = "product";
+        args[0].cdn = cdn;
         return args;
       });
     }
+    // 删除 moment 除 zh-cn 中文包外的其它语言包，无需在代码中手动引入 zh-cn 语言包
+    config
+      .plugin("ignore")
+      .use(new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn$/));
     config.module
       .rule("less")
       .oneOf("vue")
@@ -81,8 +98,8 @@ module.exports = {
       .options({
         patterns: [
           path.resolve(__dirname, "./src/assets/css/reset.less"),
-          path.resolve(__dirname, "./src/assets/css/base.less")
-        ]
+          path.resolve(__dirname, "./src/assets/css/base.less"),
+        ],
       });
-  }
+  },
 };

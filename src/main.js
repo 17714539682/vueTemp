@@ -13,9 +13,8 @@ import Meta from "vue-meta";
 import globalComponent from "@/plugin/globalComponent";
 import "@/assets/iconfont";
 import config from "@/config";
-import { Button, Rate } from "ant-design-vue";
+import { Button } from "ant-design-vue";
 Vue.use(Button);
-Vue.use(Rate);
 Vue.use(Meta);
 Vue.use(globalComponent);
 
@@ -24,10 +23,11 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
+  // 页面title
   metaInfo() {
     return {
-      title: config.systemName
+      title: config.systemName,
     };
   },
-  render: h => h(App)
+  render: h => h(App),
 }).$mount("#app");
