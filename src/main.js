@@ -13,9 +13,13 @@ import Meta from "vue-meta";
 import globalComponent from "@/plugin/globalComponent";
 import "@/assets/iconfont";
 import config from "@/config";
-import { Button } from "ant-design-vue";
+import { Button, Layout, Menu, Icon } from "ant-design-vue";
 Vue.use(Button);
+Vue.use(Layout);
+Vue.use(Icon);
+Vue.use(Menu);
 Vue.use(Meta);
+
 Vue.use(globalComponent);
 
 Vue.config.productionTip = false;
