@@ -1,4 +1,4 @@
-# project-o
+# vueCli4
 
 ## Project setup
 ```

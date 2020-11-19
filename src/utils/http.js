@@ -5,11 +5,13 @@
  */
 import axios from "axios";
 import { Modal, Message } from "ant-design-vue";
+import { apiPrefix } from "@/settings";
+
 let showLogin = false;
 
 const api = axios.create({
   // 请求前缀
-  baseURL: "",
+  baseURL: apiPrefix,
   // 超时时间
   timeout: 15000,
   // 响应类型

@@ -13,7 +13,7 @@
       <a-menu theme="dark" mode="inline" class="layoutMenu">
         <a-menu-item v-for="item in menuList" :key="item.key">
           <div class="title" @click="() => handleMenu(item)">
-            <Icon :iconClass="item.icon" />
+            <w-Icon :iconClass="item.icon" />
             <span>
               {{ item.name }}
             </span>
