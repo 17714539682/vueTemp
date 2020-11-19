@@ -10,20 +10,15 @@ import router from "./router";
 import "./router/routerGuard";
 import store from "./store";
 import Meta from "vue-meta";
+import "@/plugin/antd-ui";
 import globalComponent from "@/plugin/globalComponent";
 import globalDirective from "@/directive";
 import "@/assets/iconfont";
 import { systemTitle } from "@/settings";
-import { Button, Layout, Menu, Icon } from "ant-design-vue";
 
 Vue.use(Meta);
 Vue.use(globalComponent);
 Vue.use(globalDirective);
-
-Vue.use(Menu);
-Vue.use(Button);
-Vue.use(Layout);
-Vue.use(Icon);
 
 Vue.config.productionTip = false;
 
