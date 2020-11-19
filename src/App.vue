@@ -1,46 +1,37 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/home">Home</router-link>
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <router-view v-if="isRouterAlive" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "app",
-  data() {
+  name: "App",
+  provide() {
     return {
-      value: 2,
+      reload: this.reload,
     };
   },
-  created() {
-    console.log(this.value?.a?.c);
+  data() {
+    return {
+      isRouterAlive: true,
+    };
+  },
+  methods: {
+    reload() {
+      this.isRouterAlive = false;
+      this.$nextTick(() => (this.isRouterAlive = true));
+    },
   },
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 </style>

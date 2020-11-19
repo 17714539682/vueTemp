@@ -6,13 +6,19 @@
 import { apiUser } from "@/api/module1/common";
 
 const state = {
-  token: ""
+  // 用户信息
+  empInfo: {},
+  // 用户权限
+  authority: {
+    contact: ["1"],
+  },
+  token: "",
 };
 
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token;
-  }
+  },
 };
 
 const actions = {
@@ -29,12 +35,12 @@ const actions = {
           reject(error);
         });
     });
-  }
+  },
 };
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions
+  actions,
 };

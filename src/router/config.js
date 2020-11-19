@@ -9,7 +9,7 @@ export default [
     path: "/",
     name: "layout",
     redirect: "/home",
-    component: () => import("@/views/layout/index.vue"),
+    component: () => import("@/views/Layout.vue"),
     children: [
       {
         path: "/about",

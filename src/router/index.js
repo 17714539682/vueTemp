@@ -7,7 +7,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import routes from "./config";
-import { systemName } from "@/config";
+import { systemName } from "@/settings";
 
 //拦截导航重复点击报错
 const originalPush = VueRouter.prototype.push;

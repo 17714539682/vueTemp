@@ -17,19 +17,14 @@ const api = axios.create({
   // 发送请求时需带上cookie
   withCredentials: true,
   // 请求头
-  headers: { "iv-user": "007306" }
+  headers: { "iv-user": "007306" },
 });
 
 const getRequestIdentify = config => {
   return config.method === "get"
     ? config.url +
-        (typeof config.params === "object"
-          ? JSON.stringify(config.params)
-          : config.params)
-    : config.url +
-        (typeof config.data === "object"
-          ? JSON.stringify(config.data)
-          : config.data);
+        (typeof config.params === "object" ? JSON.stringify(config.params) : config.params)
+    : config.url + (typeof config.data === "object" ? JSON.stringify(config.data) : config.data);
 };
 
 const pending = [];
@@ -74,7 +69,7 @@ api.interceptors.response.use(
       if (!showLogin && data.code === "403") {
         showLogin = true;
         Modal.confirm("登录超时");
-      } else if (parseInt(data.code, 10) !== 0) {
+      } else if (data.code !== "0") {
         Message.error("请求服务错误");
         return Promise.reject(data);
       }
@@ -90,7 +85,7 @@ api.interceptors.response.use(
     }
     Message.error("网络错误");
     return Promise.reject(error);
-  }
+  },
 );
 
 export default class Http {
@@ -102,13 +97,13 @@ export default class Http {
           {
             params: {
               ...params,
-              _: Math.random()
-            }
+              _: Math.random(),
+            },
           },
-          config
+          config,
         )
         .then(res => {
-          resolve(res.data || res.resultData);
+          resolve(res?.resultData);
         })
         .catch(err => {
           reject(err);
@@ -122,12 +117,12 @@ export default class Http {
         .post(
           url,
           {
-            ...params
+            ...params,
           },
-          config
+          config,
         )
         .then(res => {
-          resolve(res.data || res.resultData);
+          resolve(res?.resultData);
         })
         .catch(err => {
           reject(err);

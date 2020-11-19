@@ -4,6 +4,7 @@
  * @Author: wuwei
  */
 const getters = {
-  token: state => state.global.token
+  empInfo: state => state.global.empInfo,
+  authority: state => state.global.authority,
 };
 export default getters;

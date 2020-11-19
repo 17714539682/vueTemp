@@ -1,5 +1,5 @@
 ("use strict");
-const config = require("./src/config");
+const settings = require("./src/settings");
 const path = require("path");
 const webpack = require("webpack");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
@@ -9,7 +9,7 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 const isProduction = process.env.NODE_ENV === "production";
-const { port, apiPrefix, API_DEV } = config;
+const { port, apiPrefix, API_DEV } = settings;
 
 module.exports = {
   lintOnSave: true, //直接关闭eslint检查
@@ -88,6 +88,7 @@ module.exports = {
         return args;
       });
     }
+    config.resolve.symlinks(true); // 修复热更新失效
     // 删除 moment 除 zh-cn 中文包外的其它语言包，无需在代码中手动引入 zh-cn 语言包
     config
       .plugin("ignore")

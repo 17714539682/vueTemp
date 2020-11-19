@@ -30,5 +30,9 @@ module.exports = {
      "import/extensions": [0],
      // 箭头函数的函数体不能换行（与prettier冲突）
      "implicit-arrow-linebreak": [0],
+  },
+  // 允许全局访问的属性
+  globals: {
+    Vue: true
   }
 };

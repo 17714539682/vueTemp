@@ -13,9 +13,9 @@ const vuexLocal = new VuexPersistence({
   reducer: state => {
     const { global } = state;
     return {
-      global
+      global,
     };
-  }
+  },
 });
 
 const modulesFiles = require.context("./modules", true, /\.js$/);
@@ -32,7 +32,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   modules,
   getters,
-  plugins: [vuexLocal.plugin]
+  plugins: [vuexLocal.plugin],
 });
 
 export default store;
