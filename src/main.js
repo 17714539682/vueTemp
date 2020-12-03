@@ -15,6 +15,9 @@ import globalComponent from "@/plugin/globalComponent";
 import globalDirective from "@/directive";
 import "@/assets/iconfont";
 import { systemTitle } from "@/settings";
+import echarts from "echarts";
+
+Vue.prototype.$echarts = echarts;
 
 Vue.use(Meta);
 Vue.use(globalComponent);
@@ -28,7 +31,7 @@ new Vue({
   // 页面title
   metaInfo() {
     return {
-      title: systemTitle,
+      title: `${store.state.global.title}-${systemTitle}`,
     };
   },
   render: h => h(App),

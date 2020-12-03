@@ -9,7 +9,15 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 const isProduction = process.env.NODE_ENV === "production";
-const { port, apiPrefix, API_DEV } = settings;
+
+const { port, apiPrefix, API_MOCK, API_DEV, API_UAT } = settings;
+// 本地环境 接口区分
+let target = API_DEV;
+if (process.env.API_ENV === "mock") {
+  target = API_MOCK;
+} else if (process.env.API_ENV === "production") {
+  target = API_UAT;
+}
 
 module.exports = {
   lintOnSave: true, //直接关闭eslint检查
@@ -24,11 +32,11 @@ module.exports = {
     port: port,
     proxy: {
       [apiPrefix]: {
-        target: API_DEV,
+        target,
         changeOrigin: true, // 开启代理
         ws: false, // 是否启用  websockets;
         pathRewrite: {
-          [`^${apiPrefix}`]: "",
+          [`^${apiPrefix}`]: apiPrefix,
         },
       },
     },
@@ -88,7 +96,10 @@ module.exports = {
         return args;
       });
     }
-    config.resolve.symlinks(true); // 修复热更新失效
+    // vue帮我们使用了prefetch(预读取)，在加载完首页的文件之后，主动帮我们读取剩余的文件
+    config.plugins.delete("prefetch");
+    // 修复热更新失效
+    config.resolve.symlinks(true);
     // 删除 moment 除 zh-cn 中文包外的其它语言包，无需在代码中手动引入 zh-cn 语言包
     config
       .plugin("ignore")

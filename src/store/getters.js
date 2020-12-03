@@ -5,6 +5,6 @@
  */
 const getters = {
   empInfo: state => state.global.empInfo,
-  authority: state => state.global.authority,
+  token: state => state.global.token,
 };
 export default getters;

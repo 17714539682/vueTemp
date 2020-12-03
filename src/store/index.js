@@ -11,9 +11,10 @@ import getters from "./getters";
 const vuexLocal = new VuexPersistence({
   storage: window.sessionStorage,
   reducer: state => {
-    const { global } = state;
+    const { global, user } = state;
     return {
       global,
+      user,
     };
   },
 });
@@ -28,7 +29,6 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 }, {});
 
 Vue.use(Vuex);
-
 const store = new Vuex.Store({
   modules,
   getters,

@@ -4,6 +4,7 @@
  * @Date: 2020-06-17 18:12:31
  */
 import axios from "axios";
+import store from "@/store";
 import { Modal, Message } from "ant-design-vue";
 import { apiPrefix } from "@/settings";
 
@@ -19,7 +20,7 @@ const api = axios.create({
   // 发送请求时需带上cookie
   withCredentials: true,
   // 请求头
-  headers: { "iv-user": "007306" },
+  headers: { Authorization: "007306" },
 });
 
 const getRequestIdentify = config => {
@@ -47,15 +48,15 @@ api.interceptors.request.use(config => {
   // 数据格式
   config.headers.Accept = "application/json;";
   // 每一个请求new一个token，然后存入状态中
-  // config.cancelToken = new axios.CancelToken(cancel => {
-  // const { requests } = store.getState().global;
-  // store.dispatch({
-  //   type: "global/setRequestAction",
-  //   payload: [cancel].concat(requests)
-  // });
-  // pending.push({ requestData: cancel });
-  // pending[requestData] = cancel;
-  // });
+  config.cancelToken = new axios.CancelToken(cancel => {
+    const { requests } = store.state.global;
+    store.dispatch({
+      type: "global/setRequestAction",
+      data: [cancel].concat(requests),
+    });
+    pending.push({ requestData: cancel });
+    pending[requestData] = cancel;
+  });
   return config;
 });
 
@@ -70,7 +71,11 @@ api.interceptors.response.use(
       // 判断返回状态
       if (!showLogin && data.code === "403") {
         showLogin = true;
-        Modal.confirm("登录超时");
+        Modal.warning({
+          title: "提示",
+          content: "登录超时，请重新登录！",
+          onOk() {},
+        });
       } else if (data.code !== "0") {
         Message.error("请求服务错误");
         return Promise.reject(data);
@@ -105,7 +110,7 @@ export default class Http {
           config,
         )
         .then(res => {
-          resolve(res?.resultData);
+          resolve(res?.data);
         })
         .catch(err => {
           reject(err);
@@ -124,7 +129,7 @@ export default class Http {
           config,
         )
         .then(res => {
-          resolve(res?.resultData);
+          resolve(res?.data);
         })
         .catch(err => {
           reject(err);

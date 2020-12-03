@@ -5,19 +5,19 @@
 -->
 
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div class="help">
+    <h1>This is an help page</h1>
   </div> </template
 >;
 
 <script>
 export default {
-  name: "about",
+  name: "help",
 };
 </script>
 
 <style lang="less" scoped>
-.about {
+.help {
   width: 100%;
 }
 </style>
