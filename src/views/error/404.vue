@@ -5,13 +5,13 @@
 -->
 <template>
   <div class="content">
-    1111
+    页面不存在
   </div>
 </template>
 
 <script>
 export default {
-  name: "demoa",
+  name: "404",
   data() {
     return {};
   },

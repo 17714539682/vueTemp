@@ -6,7 +6,7 @@
 import _ from "lodash";
 
 const state = {
-  title: "首页",
+  title: "",
   // 全局请求记录数据
   requests: [],
 };

@@ -32,12 +32,14 @@ export const constantRoutes = [
   {
     path: "/403",
     name: "403",
-    component: () => 403,
+    meta: { title: "403" },
+    component: () => import(/* webpackChunkName: "403" */ "@/views/error/403.vue"),
   },
   {
     path: "/404",
     name: 404,
-    component: () => "404",
+    meta: { title: "404" },
+    component: () => import(/* webpackChunkName: "404" */ "@/views/error/404.vue"),
   },
 ];
 

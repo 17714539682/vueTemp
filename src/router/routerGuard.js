@@ -11,12 +11,11 @@ const whitePath = ["/login", "/register", "/agreement"];
 router.beforeEach((to, from, next) => {
   NProgress.start();
   const { empInfo } = store.state.user;
-  console.log(empInfo);
   if (!whitePath.includes(to.path) && _.isEmpty(empInfo)) {
     next("/login");
     Message.warning("请先登录");
   } else {
-    store.commit("global/setTitle", to.meta.title);
+    store.commit("global/setTitle", to.meta.title || "");
     next();
   }
   NProgress.done();

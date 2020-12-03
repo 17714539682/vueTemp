@@ -5,13 +5,13 @@
 -->
 <template>
   <div class="content">
-    1111
+    无权限
   </div>
 </template>
 
 <script>
 export default {
-  name: "demoa",
+  name: "403",
   data() {
     return {};
   },

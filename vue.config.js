@@ -20,11 +20,11 @@ if (process.env.API_ENV === "mock") {
 }
 
 module.exports = {
-  lintOnSave: true, //直接关闭eslint检查
+  lintOnSave: true, // 开启eslint检查
   publicPath: isProduction ? "./" : "/",
   outputDir: `./dist`,
   assetsDir: "static",
-  filenameHashing: true, // 默认在生成的静态资源文件名中包含hash以控制缓存
+  filenameHashing: true, // 在生成的静态资源文件名中包含hash以控制缓存
   productionSourceMap: false, // 生产环境的 source map
   devServer: {
     open: true, // 是否打开浏览器;
@@ -36,12 +36,12 @@ module.exports = {
         changeOrigin: true, // 开启代理
         ws: false, // 是否启用  websockets;
         pathRewrite: {
-          [`^${apiPrefix}`]: apiPrefix,
+          [`^${apiPrefix}`]: "",
         },
       },
     },
   },
-  // antd引入报错解决
+  // less文件中使用js
   css: {
     loaderOptions: {
       less: {
@@ -62,7 +62,7 @@ module.exports = {
         algorithm: "gzip",
         test: new RegExp("\\.(" + productionGzipExtensions.join("|") + ")$"), // 匹配文件名
         threshold: 0, // 对超过0k的文件压缩
-        minRatio: 0.8, // 对压缩率小于这个值的资源进行处理
+        minRatio: 0.6, // 对压缩率小于这个值的资源进行处理
       }),
     ],
     externals: isProduction
@@ -91,7 +91,6 @@ module.exports = {
     };
     if (isProduction) {
       config.plugin("html").tap(args => {
-        args[0].mode = "product";
         args[0].cdn = cdn;
         return args;
       });
